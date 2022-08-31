@@ -42,6 +42,8 @@ class SerialU:
     def close(self):
         serial.serialClose(self.port)        
 
+
+
     def read(self, symbol, time, buffer):
         return serial.readdata(self.port, symbol.encode('utf-8'), time, buffer).decode('utf-8')
 
@@ -62,8 +64,3 @@ class SerialU:
     
     def avail(self):
         return serial.serialDataAvail(self.port)
-
-
-
-
-
