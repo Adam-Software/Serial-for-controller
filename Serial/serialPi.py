@@ -9,11 +9,17 @@ import ctypes
 import struct
 
 import numpy.ctypeslib as ctl
-from numpy.ctypeslib import ndpointer
 import numpy as np
- 
+from numpy.ctypeslib import ndpointer
+
+# checking the bit depth of the operating system
+is64bit = struct.calcsize('P') * 8 == 64
+
 # Загрузка библиотеки
-serial = ctypes.CDLL('/home/pi/adam/Serial/serial.so')
+if(is64bit):
+    serial = ctypes.CDLL('serial_x64.so')
+else:
+    serial = ctypes.CDLL('serial.so')
  
 # Указываем, что функция возвращает int
 serial.serialOpen.restype = ctypes.c_int
@@ -41,8 +47,6 @@ class SerialU:
 
     def close(self):
         serial.serialClose(self.port)        
-
-
 
     def read(self, symbol, time, buffer):
         return serial.readdata(self.port, symbol.encode('utf-8'), time, buffer).decode('utf-8')
