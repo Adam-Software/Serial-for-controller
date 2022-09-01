@@ -7,6 +7,7 @@ import sys
 import time
 import ctypes 
 import struct
+import os
 
 import numpy.ctypeslib as ctl
 import numpy as np
@@ -15,11 +16,14 @@ from numpy.ctypeslib import ndpointer
 # checking the bit depth of the operating system
 is64bit = struct.calcsize('P') * 8 == 64
 
-# Загрузка библиотеки
+# path
+path = os.path.dirname(os.path.realpath(__file__))
+
+# loading the library depending on the architecture of the operating system
 if(is64bit):
-    serial = ctypes.CDLL('serial_x64.so')
+    serial = ctypes.CDLL(os.path.join(path, 'serial_aaarch64.so'))
 else:
-    serial = ctypes.CDLL('serial.so')
+    serial = ctypes.CDLL(os.path.join(path, 'serial_armv71.so'))
  
 # Указываем, что функция возвращает int
 serial.serialOpen.restype = ctypes.c_int
