@@ -45,30 +45,85 @@ serial.readfrom.argtypes = [ctypes.c_int,ctypes.c_char,ctypes.c_int,]
 serial.readdata.argtypes = [ctypes.c_int,ctypes.c_char,ctypes.c_int,ctypes.c_int,]
 serial.serialPrint.argtypes = [ctypes.c_int,ctypes.POINTER(ctypes.c_char) ]
 
-class SerialU:
-    def __init__(self, com, port):
-        self.port = serial.serialOpen(com.encode('utf-8'), port)
+class MetaSingleton(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(MetaSingleton, cls).__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class SerialU(metaclass=MetaSingleton):
+
+    _port = None
+    _devicename = None
+    _baudrate = None
+
+    def __init__(self,
+                 devicename : str = '/dev/ttyAMA0',
+                 baudrate : int = 115200):
+        self._devicename = devicename
+        self._baudrate = baudrate
+        self._initPort()
+
+    def _initPort(self):
+        if self._port is None:
+            self._port = serial.serialOpen(self._devicename.encode('utf-8'), self._baudrate)
 
     def close(self):
-        serial.serialClose(self.port)        
+        if self._port is not None:
+            serial.serialClose(self._port)
+            self._port = None
 
     def read(self, symbol, time, buffer):
-        return serial.readdata(self.port, symbol.encode('utf-8'), time, buffer).decode('utf-8')
+        if self._port is not None:
+            return serial.readdata(self._port, symbol.encode('utf-8'), time, buffer).decode('utf-8')
+
+        self._initPort()
 
     def readByte(self, symbol, time, buffer):
-        return serial.readdata(self.port, symbol.encode('utf-8'), time, buffer)
+        if self._port is not None:
+            return serial.readdata(self._port, symbol.encode('utf-8'), time, buffer)
+
+        self._initPort()
 
     def readf(self, symbol, time):
-        return serial.readfrom(self.port, symbol.encode('utf-8'), time).decode('utf-8')
+        if self._port is not None:
+            return serial.readfrom(self._port, symbol.encode('utf-8'), time).decode('utf-8')
+
+        self._initPort()
 
     def write(self, byted, size):
-        buffer = (ctypes.c_ubyte * size)()
-        for i in range(size):
-            buffer[i]=byted[i]
-        serial.send(self.port, buffer, size)
+        if self._port is not None:
+            buffer = (ctypes.c_ubyte * size)()
+            for i in range(size):
+                buffer[i]=byted[i]
+            serial.send(self._port, buffer, size)
 
     def print(self, byted, size):
-        serial.serialPrint(self.port, byted,size)
+        if self._port is not None:
+            serial.serialPrint(self._port, byted, size)
     
     def avail(self):
-        return serial.serialDataAvail(self.port)
+        if self._port is not None:
+            return serial.serialDataAvail(self._port)
+
+        self._initPort()
+
+    @staticmethod
+    def CalculateCrc(arr: array):
+        st_byt = 0
+        crc = 0
+
+        while st_byt < len(mas):
+            dat = mas[st_byt]
+            for i in range(8):
+                fb = crc ^ dat
+                fb &= 1
+                crc >>= 1
+                dat >>= 1
+                if fb == 1:
+                    crc ^= 0x8c
+            st_byt += 1
+
+        return crc
