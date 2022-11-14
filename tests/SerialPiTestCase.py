@@ -41,7 +41,7 @@ class SerialPiTestCase(unittest.TestCase):
         avial2 = serial.avail()
 
 
-        self.assertEqual(avial1, 0)
+        self.assertEqual(avial1, None)
         self.assertEqual(avial2, None)
 
     def testDoubleInitWithCloseEquals(self):
