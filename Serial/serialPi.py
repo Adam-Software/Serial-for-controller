@@ -60,8 +60,8 @@ class SerialU(metaclass=MetaSingleton):
     _baudrate = None
 
     def __init__(self,
-                 devicename : str = '/dev/ttyAMA0',
-                 baudrate : int = 115200):
+                 devicename: str = '/dev/ttyAMA0',
+                 baudrate: int = 115200):
         self._devicename = devicename
         self._baudrate = baudrate
         self._initPort()
@@ -111,12 +111,12 @@ class SerialU(metaclass=MetaSingleton):
         self._initPort()
 
     @staticmethod
-    def CalculateCrc(arr: array):
+    def CalculateCrc(arr):
         st_byt = 0
         crc = 0
 
-        while st_byt < len(mas):
-            dat = mas[st_byt]
+        while st_byt < len(arr):
+            dat = arr[st_byt]
             for i in range(8):
                 fb = crc ^ dat
                 fb &= 1
