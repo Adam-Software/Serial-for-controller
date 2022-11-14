@@ -44,5 +44,14 @@ class SerialPiTestCase(unittest.TestCase):
         self.assertEqual(avial1, 0)
         self.assertEqual(avial2, None)
 
+    def testDoubleInitWithCloseEquals(self):
+        serial1 = SerialU()
+        serial2 = SerialU()
+
+        serial1.close()
+
+        self.assertEqual(serial1, serial2)
+
+
 if __name__ == '__main__':
     unittest.main()
