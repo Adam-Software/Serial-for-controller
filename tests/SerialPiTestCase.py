@@ -50,9 +50,8 @@ class SerialPiTestCase(unittest.TestCase):
 
         serial1.close()
 
-        print(serial1)
-        print(serial2)
-        self.assertEqual(serial1, serial2)
+        self.assertEqual(serial1._port, None)
+        self.assertEqual(serial2._port, None)
 
 
 if __name__ == '__main__':
