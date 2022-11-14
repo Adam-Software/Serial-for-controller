@@ -58,8 +58,8 @@ class SerialPiTestCase(unittest.TestCase):
         self.assertEqual(serial2._port, None)
 
     def testCalculateCrc(self):
-        result = SerialU.CalculateCrc([0, 0, 0, 0, 0, 0, 0, 0])
-        print(result)
+        result = SerialU.CalculateCrc([10, 2, 5, 0, 6, 0, 0, 0])
+        self.assertEqual(result, 52)
 
 
 if __name__ == '__main__':
