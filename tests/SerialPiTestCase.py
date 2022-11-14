@@ -37,6 +37,8 @@ class SerialPiTestCase(unittest.TestCase):
     def testWriteToSerialAfterClose(self):
         serial = SerialU()
         avial1 = serial.avail()
+
+        # closing a port in one of the class instances will cause it to be closed in all instances of the class
         serial.close()
         avial2 = serial.avail()
 
@@ -48,6 +50,7 @@ class SerialPiTestCase(unittest.TestCase):
         serial1 = SerialU()
         serial2 = SerialU()
 
+        # closing a port in one of the class instances will cause it to be closed in all instances of the class
         serial1.close()
 
         self.assertEqual(serial1._port, None)

@@ -80,18 +80,21 @@ class SerialU(metaclass=MetaSingleton):
             return serial.readdata(self._port, symbol.encode('utf-8'), time, buffer).decode('utf-8')
 
         self._initPort()
+        return serial.readdata(self._port, symbol.encode('utf-8'), time, buffer).decode('utf-8')
 
     def readByte(self, symbol, time, buffer):
         if self._port is not None:
             return serial.readdata(self._port, symbol.encode('utf-8'), time, buffer)
 
         self._initPort()
+        return serial.readdata(self._port, symbol.encode('utf-8'), time, buffer)
 
     def readf(self, symbol, time):
         if self._port is not None:
             return serial.readfrom(self._port, symbol.encode('utf-8'), time).decode('utf-8')
 
         self._initPort()
+        return serial.readfrom(self._port, symbol.encode('utf-8'), time).decode('utf-8')
 
     def write(self, byted, size):
         if self._port is not None:
@@ -99,16 +102,28 @@ class SerialU(metaclass=MetaSingleton):
             for i in range(size):
                 buffer[i]=byted[i]
             serial.send(self._port, buffer, size)
+            return
+
+        self._initPort()
+        self.write(byted, size)
+        return
+
 
     def print(self, byted, size):
         if self._port is not None:
             serial.serialPrint(self._port, byted, size)
-    
+            return
+
+        self._initPort()
+        self.print(byted, size)
+        return
+
     def avail(self):
         if self._port is not None:
             return serial.serialDataAvail(self._port)
 
         self._initPort()
+        return serial.serialDataAvail(self._port)
 
     @staticmethod
     def CalculateCrc(arr):
