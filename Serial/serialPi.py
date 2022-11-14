@@ -7,13 +7,23 @@ import sys
 import time
 import ctypes 
 import struct
+import os
 
 import numpy.ctypeslib as ctl
-from numpy.ctypeslib import ndpointer
 import numpy as np
- 
-# Загрузка библиотеки
-serial = ctypes.CDLL('/home/pi/adam/Serial/serial.so')
+from numpy.ctypeslib import ndpointer
+
+# checking the bit depth of the operating system
+is64bit = struct.calcsize('P') * 8 == 64
+
+# path
+path = os.path.dirname(os.path.realpath(__file__))
+
+# loading the library depending on the architecture of the operating system
+if(is64bit):
+    serial = ctypes.CDLL(os.path.join(path, 'serial_aaarch64.so'))
+else:
+    serial = ctypes.CDLL(os.path.join(path, 'serial_armv71.so'))
  
 # Указываем, что функция возвращает int
 serial.serialOpen.restype = ctypes.c_int
@@ -62,8 +72,3 @@ class SerialU:
     
     def avail(self):
         return serial.serialDataAvail(self.port)
-
-
-
-
-
