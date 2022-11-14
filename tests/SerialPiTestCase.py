@@ -26,14 +26,23 @@ class SerialPiTestCase(unittest.TestCase):
         serial1 = SerialU()
         serial2 = SerialU()
 
+        avial1 = serial1.avail()
+        avial2 = serial2.avail()
+
         self.assertEqual(serial1, serial2)
+        self.assertEqual(avial1, 0)
+        self.assertEqual(avial2, 0)
+
 
     def testWriteToSerialAfterClose(self):
         serial = SerialU()
-        avial = serial.avail()
+        avial1 = serial.avail()
+        serial.close()
+        avial2 = serial.avail()
 
-        self.assertEqual(avial, True)
 
+        self.assertEqual(avial1, 0)
+        self.assertEqual(avial2, None)
 
 if __name__ == '__main__':
     unittest.main()
