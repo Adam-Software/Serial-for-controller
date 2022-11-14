@@ -26,7 +26,13 @@ class SerialPiTestCase(unittest.TestCase):
         serial1 = SerialU()
         serial2 = SerialU()
 
-        self.assertEqual(serial1, serial2)  # add assertion here
+        self.assertEqual(serial1, serial2)
+
+    def testWriteToSerialAfterClose(self):
+        serial = SerialU()
+        avial = serial.avail()
+
+        self.assertEqual(avial, True)
 
 
 if __name__ == '__main__':
