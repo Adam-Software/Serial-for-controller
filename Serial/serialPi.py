@@ -67,6 +67,9 @@ class SerialU(metaclass=MetaSingleton):
         self._initPort()
 
     def _initPort(self):
+        if os.name == 'nt':
+            return
+
         if self._port is None:
             self._port = serial.serialOpen(self._devicename.encode('utf-8'), self._baudrate)
 
@@ -76,6 +79,9 @@ class SerialU(metaclass=MetaSingleton):
             self._port = None
 
     def read(self, symbol, time, buffer):
+        if os.name == 'nt':
+            return
+
         if self._port is not None:
             return serial.readdata(self._port, symbol.encode('utf-8'), time, buffer).decode('utf-8')
 
@@ -83,6 +89,9 @@ class SerialU(metaclass=MetaSingleton):
         return serial.readdata(self._port, symbol.encode('utf-8'), time, buffer).decode('utf-8')
 
     def readByte(self, symbol, time, buffer):
+        if os.name == 'nt':
+            return
+
         if self._port is not None:
             return serial.readdata(self._port, symbol.encode('utf-8'), time, buffer)
 
@@ -90,6 +99,9 @@ class SerialU(metaclass=MetaSingleton):
         return serial.readdata(self._port, symbol.encode('utf-8'), time, buffer)
 
     def readf(self, symbol, time):
+        if os.name == 'nt':
+            return
+
         if self._port is not None:
             return serial.readfrom(self._port, symbol.encode('utf-8'), time).decode('utf-8')
 
@@ -97,6 +109,9 @@ class SerialU(metaclass=MetaSingleton):
         return serial.readfrom(self._port, symbol.encode('utf-8'), time).decode('utf-8')
 
     def write(self, byted, size):
+        if os.name == 'nt':
+            return
+
         if self._port is not None:
             buffer = (ctypes.c_ubyte * size)()
             for i in range(size):
