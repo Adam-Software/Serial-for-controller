@@ -5,7 +5,7 @@ with open("README.md", "r", encoding = "utf-8") as fh:
 
 setup(
     name='Adam-Serial-for-controller',
-    version='0.1.9',
+    version='0.2.0',
     packages=['Serial'],
     url='https://github.com/Adam-Software/Serial-for-controller',
     license='MIT',
@@ -18,7 +18,7 @@ setup(
     include_package_data=True,
     install_requires=['numpy'],
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: MIT License',
         'Operating System :: POSIX :: Other',
         'Programming Language :: C',
