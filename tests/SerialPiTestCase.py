@@ -61,6 +61,12 @@ class SerialPiTestCase(unittest.TestCase):
         result = SerialU.CalculateCrc([10, 2, 5, 0, 6, 0, 0, 0])
         self.assertEqual(result, 52)
 
+    # running this test should be error-free
+    def testRunOnWinSystem(self):
+        serial1 = SerialU()
+        serial1.close()
+
+
 
 if __name__ == '__main__':
     unittest.main()

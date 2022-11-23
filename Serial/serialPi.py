@@ -20,30 +20,33 @@ is64bit = struct.calcsize('P') * 8 == 64
 path = os.path.dirname(os.path.realpath(__file__))
 
 # loading the library depending on the architecture of the operating system
-if(is64bit):
-    serial = ctypes.CDLL(os.path.join(path, 'serial_aaarch64.so'))
-else:
-    serial = ctypes.CDLL(os.path.join(path, 'serial_armv71.so'))
+if os.name != 'nt':
+    if(is64bit):
+        serial = ctypes.CDLL(os.path.join(path, 'serial_aaarch64.so'))
+    else:
+        serial = ctypes.CDLL(os.path.join(path, 'serial_armv71.so'))
  
-# Указываем, что функция возвращает int
-serial.serialOpen.restype = ctypes.c_int
-serial.serialClose.restype = ctypes.c_void_p
-serial.serialDataAvail.restype = ctypes.c_int
-serial.send.restype = ctypes.c_void_p
 
-# Указываем, что функция возвращает char *
-serial.readfrom.restype = ctypes.c_char_p
-serial.readdata.restype = ctypes.c_char_p
-serial.serialPrint.restype = ctypes.c_void_p
+if os.name != 'nt':
+    # Указываем, что функция возвращает int
+    serial.serialOpen.restype = ctypes.c_int
+    serial.serialClose.restype = ctypes.c_void_p
+    serial.serialDataAvail.restype = ctypes.c_int
+    serial.send.restype = ctypes.c_void_p
 
-# Указываем, что функция принимает аргумент
-serial.serialOpen.argtypes = [ctypes.POINTER(ctypes.c_char),ctypes.c_int, ]
-serial.serialClose.argtypes = [ctypes.c_int]
-serial.serialDataAvail.argtypes = [ctypes.c_int]
-serial.send.argtypes = [ctypes.c_int,ctypes.POINTER(ctypes.c_ubyte),ctypes.c_uint,]
-serial.readfrom.argtypes = [ctypes.c_int,ctypes.c_char,ctypes.c_int,]
-serial.readdata.argtypes = [ctypes.c_int,ctypes.c_char,ctypes.c_int,ctypes.c_int,]
-serial.serialPrint.argtypes = [ctypes.c_int,ctypes.POINTER(ctypes.c_char) ]
+    # Указываем, что функция возвращает char *
+    serial.readfrom.restype = ctypes.c_char_p
+    serial.readdata.restype = ctypes.c_char_p
+    serial.serialPrint.restype = ctypes.c_void_p
+
+    # Указываем, что функция принимает аргумент
+    serial.serialOpen.argtypes = [ctypes.POINTER(ctypes.c_char),ctypes.c_int, ]
+    serial.serialClose.argtypes = [ctypes.c_int]
+    serial.serialDataAvail.argtypes = [ctypes.c_int]
+    serial.send.argtypes = [ctypes.c_int,ctypes.POINTER(ctypes.c_ubyte),ctypes.c_uint,]
+    serial.readfrom.argtypes = [ctypes.c_int,ctypes.c_char,ctypes.c_int,]
+    serial.readdata.argtypes = [ctypes.c_int,ctypes.c_char,ctypes.c_int,ctypes.c_int,]
+    serial.serialPrint.argtypes = [ctypes.c_int,ctypes.POINTER(ctypes.c_char) ]
 
 class MetaSingleton(type):
     _instances = {}
@@ -54,7 +57,6 @@ class MetaSingleton(type):
         return cls._instances[cls]
 
 class SerialU(metaclass=MetaSingleton):
-
     _port = None
     _devicename = None
     _baudrate = None
@@ -74,6 +76,9 @@ class SerialU(metaclass=MetaSingleton):
             self._port = serial.serialOpen(self._devicename.encode('utf-8'), self._baudrate)
 
     def close(self):
+        if os.name == 'nt':
+            return
+
         if self._port is not None:
             serial.serialClose(self._port)
             self._port = None
@@ -125,6 +130,9 @@ class SerialU(metaclass=MetaSingleton):
 
 
     def print(self, byted, size):
+        if os.name == 'nt':
+            return
+
         if self._port is not None:
             serial.serialPrint(self._port, byted, size)
             return
@@ -134,6 +142,9 @@ class SerialU(metaclass=MetaSingleton):
         return
 
     def avail(self):
+        if os.name == 'nt':
+            return
+
         if self._port is not None:
             return serial.serialDataAvail(self._port)
 
