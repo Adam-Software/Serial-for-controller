@@ -17,56 +17,64 @@ parent = os.path.dirname(current)
 # the sys.path.
 sys.path.append(parent)
 
-from Serial.serialPi import SerialU
+from serial_for_controller.SerialPi import SerialPi
 
 
 class SerialPiTestCase(unittest.TestCase):
 
     def testDoubleInitEquals(self):
-        serial1 = SerialU()
-        serial2 = SerialU()
+        serial1 = SerialPi()
+        serial2 = SerialPi()
 
-        avial1 = serial1.avail()
-        avial2 = serial2.avail()
+        avial1 = serial1.Avail()
+        avial2 = serial2.Avail()
 
         self.assertEqual(serial1, serial2)
+
+        if os.name == 'nt':
+            self.assertEqual(avial1, None)
+            self.assertEqual(avial2, None)
+            return
+
         self.assertEqual(avial1, 0)
         self.assertEqual(avial2, 0)
 
 
     def testWriteToSerialAfterClose(self):
-        serial = SerialU()
-        avial1 = serial.avail()
+        serial = SerialPi()
+        avial1 = serial.Avail()
 
         # closing a port in one of the class instances will cause it to be closed in all instances of the class
-        serial.close()
+        serial.Close()
         # but when accessing any method of the library, the port will be initialized again
-        avial2 = serial.avail()
+        avial2 = serial.Avail()
 
+        if os.name == 'nt':
+            self.assertEqual(avial1, None)
+            self.assertEqual(avial2, None)
+            return
 
         self.assertEqual(avial1, 0)
         self.assertEqual(avial2, 0)
 
     def testDoubleInitWithCloseEquals(self):
-        serial1 = SerialU()
-        serial2 = SerialU()
+        serial1 = SerialPi()
+        serial2 = SerialPi()
 
         # closing a port in one of the class instances will cause it to be closed in all instances of the class
-        serial1.close()
+        serial1.Close()
 
         self.assertEqual(serial1._port, None)
         self.assertEqual(serial2._port, None)
 
     def testCalculateCrc(self):
-        result = SerialU.CalculateCrc([10, 2, 5, 0, 6, 0, 0, 0])
+        result = SerialPi.CalculateCrc([10, 2, 5, 0, 6, 0, 0, 0])
         self.assertEqual(result, 52)
 
     # running this test should be error-free
     def testRunOnWinSystem(self):
-        serial1 = SerialU()
-        serial1.close()
-
-
+        serial1 = SerialPi()
+        serial1.Close()
 
 if __name__ == '__main__':
     unittest.main()

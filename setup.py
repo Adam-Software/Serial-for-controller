@@ -4,8 +4,8 @@ with open("README.md", "r", encoding = "utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name='Adam-Serial-for-controller',
-    version='0.2.1',
+    name='Serial-for-controller',
+    version='0.0.1',
     packages=['Serial'],
     url='https://github.com/Adam-Software/Serial-for-controller',
     license='MIT',
