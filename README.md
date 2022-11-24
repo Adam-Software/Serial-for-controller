@@ -7,5 +7,39 @@
 [![CodeSize](https://img.shields.io/github/languages/code-size/Adam-Software/Serial-for-controller)](https://img.shields.io/github/languages/code-size/Adam-Software/Serial-for-controller)
 [![Depencies](https://img.shields.io/librariesio/github/Adam-Software/Serial-for-controller)](https://img.shields.io/librariesio/github/Adam-Software/Serial-for-controller)
 
+### What the library can do?
 
-Python library for data exchange with controller
+Python library for data exchange with STM32 controller.
+
+### How install?
+
+Old version package, with full name compatibility
+
+```commandline
+pip install Adam-Serial-for-controller
+```
+
+New version package, without name compatibility
+
+```commandline
+pip install serial-for-controller
+```
+
+### How import?
+
+Old version
+
+```commandline
+from Serial.serialPi import SerialU
+```
+
+New version
+
+```commandline
+from serial_for_controller.SerialPi import SerialPi
+```
+
+### Versions
+
+For old package Adam-Serial-for-controller last version 0.2.1
+For the new version Serial-for-controller, the countdown started from 0.0.1
