@@ -5,8 +5,8 @@ with open("README.md", "r", encoding = "utf-8") as fh:
 
 setup(
     name='serial-for-controller',
-    version='0.0.1',
-    packages=['Serial'],
+    version='0.0.2',
+    packages=['serial_for_controller'],
     url='https://github.com/Adam-Software/Serial-for-controller',
     license='MIT',
     author='vertigra',
@@ -14,11 +14,11 @@ setup(
     description='Python library for data exchange with adam controller',
     long_description=long_description,
     long_description_content_type="text/markdown",
-    package_data={'Serial': ['*.so']},
+    package_data={'serial_for_controller': ['*.so']},
     include_package_data=True,
     install_requires=['numpy'],
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'License :: OSI Approved :: MIT License',
         'Operating System :: POSIX :: Other',
         'Programming Language :: C',

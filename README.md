@@ -7,6 +7,11 @@
 [![CodeSize](https://img.shields.io/github/languages/code-size/Adam-Software/Serial-for-controller)](https://img.shields.io/github/languages/code-size/Adam-Software/Serial-for-controller)
 [![Depencies](https://img.shields.io/librariesio/github/Adam-Software/Serial-for-controller)](https://img.shields.io/librariesio/github/Adam-Software/Serial-for-controller)
 
+[![PyPI version](https://badge.fury.io/py/serial-for-controller.svg)](https://badge.fury.io/py/serial-for-controller)
+[![PythonVersion](https://img.shields.io/pypi/pyversions/serial-for-controller)](https://img.shields.io/pypi/pyversions/serial-for-controller)
+[![Wheel](https://img.shields.io/pypi/wheel/serial-for-controller)](https://img.shields.io/pypi/wheel/serial-for-controller)
+[![Status](https://img.shields.io/pypi/status/serial-for-controller)](https://img.shields.io/pypi/status/serial-for-controller)
+[![Format](https://img.shields.io/pypi/format/serial-for-controller)](https://img.shields.io/pypi/format/serial-for-controller)
 ### What the library can do?
 
 Python library for data exchange with STM32 controller.
@@ -43,3 +48,5 @@ from serial_for_controller.SerialPi import SerialPi
 
 For old package Adam-Serial-for-controller last version 0.2.1
 For the new version Serial-for-controller, the countdown started from 0.0.1
+
+Thus, the functionality of version 0.2.1 corresponds to version 0.0.1 only with other names of functions and classes
